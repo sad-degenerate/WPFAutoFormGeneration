@@ -6,14 +6,6 @@
   "compilationOptions": {},
   "targets": {
     ".NETCoreApp,Version=v7.0": {
-      "WPFAutoFormGeneration.WPF/1.0.0": {
-        "dependencies": {
-          "WPFAutoFormGeneration.LIB": "1.0.0"
-        },
-        "runtime": {
-          "WPFAutoFormGeneration.WPF.dll": {}
-        }
-      },
       "WPFAutoFormGeneration.LIB/1.0.0": {
         "runtime": {
           "WPFAutoFormGeneration.LIB.dll": {}
@@ -22,11 +14,6 @@
     }
   },
   "libraries": {
-    "WPFAutoFormGeneration.WPF/1.0.0": {
-      "type": "project",
-      "serviceable": false,
-      "sha512": ""
-    },
     "WPFAutoFormGeneration.LIB/1.0.0": {
       "type": "project",
       "serviceable": false,

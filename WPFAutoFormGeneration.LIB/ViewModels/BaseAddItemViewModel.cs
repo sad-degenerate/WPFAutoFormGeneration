@@ -1,7 +1,7 @@
 ﻿using System.Windows.Controls;
-using WPFAutoFormGeneration.WPF.Models;
+using WPFAutoFormGeneration.LIB.Models;
 
-namespace WPFAutoFormGeneration.WPF.ViewModels;
+namespace WPFAutoFormGeneration.LIB.ViewModels;
 
 public class BaseAddItemViewModel
 {

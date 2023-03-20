@@ -1,11 +1,33 @@
 {
   "version": 3,
   "targets": {
-    "net7.0-windows7.0": {}
+    "net7.0-windows7.0": {
+      "WPFAutoFormGeneration.LIB/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v7.0",
+        "compile": {
+          "bin/placeholder/WPFAutoFormGeneration.LIB.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/WPFAutoFormGeneration.LIB.dll": {}
+        },
+        "frameworkReferences": [
+          "Microsoft.WindowsDesktop.App.WPF"
+        ]
+      }
+    }
   },
-  "libraries": {},
+  "libraries": {
+    "WPFAutoFormGeneration.LIB/1.0.0": {
+      "type": "project",
+      "path": "../WPFAutoFormGeneration.LIB/WPFAutoFormGeneration.LIB.csproj",
+      "msbuildProject": "../WPFAutoFormGeneration.LIB/WPFAutoFormGeneration.LIB.csproj"
+    }
+  },
   "projectFileDependencyGroups": {
-    "net7.0-windows7.0": []
+    "net7.0-windows7.0": [
+      "WPFAutoFormGeneration.LIB >= 1.0.0"
+    ]
   },
   "packageFolders": {
     "C:\\Users\\miste\\.nuget\\packages\\": {},
@@ -39,7 +61,11 @@
       "frameworks": {
         "net7.0-windows7.0": {
           "targetAlias": "net7.0-windows",
-          "projectReferences": {}
+          "projectReferences": {
+            "F:\\Projects\\C#\\WPFAutoFormGeneration\\WPFAutoFormGeneration.LIB\\WPFAutoFormGeneration.LIB.csproj": {
+              "projectPath": "F:\\Projects\\C#\\WPFAutoFormGeneration\\WPFAutoFormGeneration.LIB\\WPFAutoFormGeneration.LIB.csproj"
+            }
+          }
         }
       },
       "warningProperties": {

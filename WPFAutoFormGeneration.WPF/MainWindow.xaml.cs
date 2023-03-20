@@ -1,8 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Windows;
-using System.Windows.Controls;
-using WPFAutoFormGeneration.WPF.Models;
-using WPFAutoFormGeneration.WPF.ViewModels;
+using WPFAutoFormGeneration.LIB.Models;
+using WPFAutoFormGeneration.LIB.ViewModels;
 
 namespace WPFAutoFormGeneration.WPF
 {
@@ -23,7 +22,11 @@ namespace WPFAutoFormGeneration.WPF
                 Items = new List<BaseItem>
                 {
                     new("Экран", "Screen", "textbox", "empty"),
-                    new("Звук", "Sound", "textbox", "loud"),
+                    new("Звук", "Sound", "checkbox", "quite", new List<string>()
+                    {
+                        "loud",
+                        "quite",
+                    }),
                 }
             };
 

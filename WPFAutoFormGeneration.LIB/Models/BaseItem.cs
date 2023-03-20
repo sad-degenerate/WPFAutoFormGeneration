@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace WPFAutoFormGeneration.WPF.Models;
+namespace WPFAutoFormGeneration.LIB.Models;
 
 public class BaseItem
 {

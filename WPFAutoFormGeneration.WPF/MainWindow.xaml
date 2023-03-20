@@ -6,6 +6,8 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
-
+        <StackPanel Name="MyPanel">
+            <Label Content="Я - не пустая стак панель!"></Label>
+        </StackPanel>
     </Grid>
 </Window>

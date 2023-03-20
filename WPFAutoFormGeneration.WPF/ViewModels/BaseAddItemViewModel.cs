@@ -1,17 +1,16 @@
-﻿using System.Collections.Generic;
-using System.Windows.Controls;
+﻿using System.Windows.Controls;
 using WPFAutoFormGeneration.WPF.Models;
 
 namespace WPFAutoFormGeneration.WPF.ViewModels;
 
 public class BaseAddItemViewModel
 {
-    public void CreateFields(string header, List<BaseItem> items, ref StackPanel panel)
+    public void CreateFields(BaseItemsList itemsList, ref StackPanel panel)
     {
         panel.Children.Clear();
-        panel.Children.Add(new Label() { Content = header });
+        panel.Children.Add(new Label() { Content = itemsList.Header });
 
-        foreach (var item in items)
+        foreach (var item in itemsList.Items)
         {
             var label = new Label()
             {
@@ -30,40 +29,11 @@ public class BaseAddItemViewModel
                     break;
                 
                 case "checkbox":
-                    foreach (var value in item.ControlValuesList)
-                    {
-                        var checkBox = new CheckBox()
-                        {
-                            Name = $"{value}",
-                            Content = value,
-                            Tag = item.ControlName
-                        };
-
-                        if (item.ControlValue == value)
-                        {
-                            checkBox.IsChecked = true;
-                        }
-
-                        panel.Children.Add(checkBox);
-                    };
+                    AddCheckBox(ref panel, item);
                     break;
                 
                 case "listbox":
-                    var listBox = new ListBox()
-                    {
-                        Name = item.ControlName,
-                        ItemsSource = item.ControlValuesList
-                    };
-
-                    foreach (var listBoxItem in listBox.ItemsSource)
-                    {
-                        if (listBoxItem.ToString() == item.ControlValue)
-                        {
-                            listBox.SelectedItem = listBoxItem;
-                        }
-                    }
-
-                    panel.Children.Add(listBox);
+                    AddListBox(ref panel, item);
                     break;
             }
         }
@@ -102,6 +72,40 @@ public class BaseAddItemViewModel
 
     private void AddCheckBox(ref StackPanel panel, BaseItem item)
     {
-        
+        foreach (var value in item.ControlValuesList)
+        {
+            var checkBox = new CheckBox()
+            {
+                Name = $"{value}",
+                Content = value,
+                Tag = item.ControlName
+            };
+
+            if (item.ControlValue == value)
+            {
+                checkBox.IsChecked = true;
+            }
+
+            panel.Children.Add(checkBox);
+        }
+    }
+
+    private void AddListBox(ref StackPanel panel, BaseItem item)
+    {
+        var listBox = new ListBox()
+        {
+            Name = item.ControlName,
+            ItemsSource = item.ControlValuesList
+        };
+
+        foreach (var listBoxItem in listBox.ItemsSource)
+        {
+            if (listBoxItem.ToString() == item.ControlValue)
+            {
+                listBox.SelectedItem = listBoxItem;
+            }
+        }
+
+        panel.Children.Add(listBox);
     }
 }

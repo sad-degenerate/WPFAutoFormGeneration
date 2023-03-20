@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Windows;
+using WPFAutoFormGeneration.LIB;
 using WPFAutoFormGeneration.LIB.Models;
-using WPFAutoFormGeneration.LIB.ViewModels;
 
 namespace WPFAutoFormGeneration.WPF
 {
@@ -16,22 +16,19 @@ namespace WPFAutoFormGeneration.WPF
 
         private void CreateFieldsMain()
         {
-            var itemsList = new BaseItemsList
+            var items = new List<Item>
             {
-                Header = "Настройки",
-                Items = new List<BaseItem>
+                new("Экран", "Screen", ControlType.TextBox, "empty"),
+                new("Звук", "Sound", ControlType.CheckBox, "quite", new List<string>
                 {
-                    new("Экран", "Screen", "textbox", "empty"),
-                    new("Звук", "Sound", "checkbox", "quite", new List<string>()
-                    {
-                        "loud",
-                        "quite",
-                    }),
-                }
+                    "loud",
+                    "quite",
+                }),
             };
 
-            var viewModel = new BaseAddItemViewModel();
-            viewModel.CreateFields(itemsList, ref MyPanel);
+            var itemsList = new ItemsList("Настройки", items);
+            
+            StackPanelItemsController.CreateFields(itemsList, ref MyPanel);
         }
     }
 }

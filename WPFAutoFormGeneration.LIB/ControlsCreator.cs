@@ -1,45 +1,39 @@
 ﻿using System.Windows.Controls;
 using WPFAutoFormGeneration.LIB.Models;
 
-namespace WPFAutoFormGeneration.LIB.ViewModels;
+namespace WPFAutoFormGeneration.LIB;
 
-public class BaseAddItemViewModel
+public static class ControlsCreator
 {
-    public void CreateFields(BaseItemsList itemsList, ref StackPanel panel)
+    public static void AddControlToStackPanel(ref StackPanel panel, Item item)
     {
-        panel.Children.Clear();
-        panel.Children.Add(new Label() { Content = itemsList.Header });
-
-        foreach (var item in itemsList.Items)
+        var label = new Label()
         {
-            var label = new Label()
-            {
-                Content = item.LabelText
-            };
-            panel.Children.Add(label);
-            
-            switch (item.ControlType)
-            {
-                case "textbox":
-                    AddTextBox(ref panel, item);
-                    break;
+            Content = item.LabelText
+        };
+        panel.Children.Add(label);
+        
+        switch (item.ControlType)
+        {
+            case ControlType.TextBox:
+                AddTextBox(ref panel, item);
+                break;
                 
-                case "radiobutton":
-                    AddRadioButton(ref panel, item);
-                    break;
+            case ControlType.RadioButton:
+                AddRadioButton(ref panel, item);
+                break;
                 
-                case "checkbox":
-                    AddCheckBox(ref panel, item);
-                    break;
+            case ControlType.CheckBox:
+                AddCheckBox(ref panel, item);
+                break;
                 
-                case "listbox":
-                    AddListBox(ref panel, item);
-                    break;
-            }
+            case ControlType.ListBox:
+                AddListBox(ref panel, item);
+                break;
         }
     }
     
-    private void AddTextBox(ref StackPanel panel, BaseItem item)
+    private static void AddTextBox(ref StackPanel panel, Item item)
     {
         var textBox = new TextBox()
         {
@@ -50,7 +44,7 @@ public class BaseAddItemViewModel
         panel.Children.Add(textBox);
     }
 
-    private void AddRadioButton(ref StackPanel panel, BaseItem item)
+    private static void AddRadioButton(ref StackPanel panel, Item item)
     {
         foreach (var value in item.ControlValuesList)
         {
@@ -70,7 +64,7 @@ public class BaseAddItemViewModel
         }
     }
 
-    private void AddCheckBox(ref StackPanel panel, BaseItem item)
+    private static void AddCheckBox(ref StackPanel panel, Item item)
     {
         foreach (var value in item.ControlValuesList)
         {
@@ -90,7 +84,7 @@ public class BaseAddItemViewModel
         }
     }
 
-    private void AddListBox(ref StackPanel panel, BaseItem item)
+    private static void AddListBox(ref StackPanel panel, Item item)
     {
         var listBox = new ListBox()
         {

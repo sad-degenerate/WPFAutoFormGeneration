@@ -69,7 +69,6 @@ public static class ControlsCreator
         {
             var checkBox = new CheckBox()
             {
-                Name = $"{value}",
                 Content = value,
                 Tag = item.ControlName
             };

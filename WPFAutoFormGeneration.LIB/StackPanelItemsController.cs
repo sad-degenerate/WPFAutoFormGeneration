@@ -1,10 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System.Linq;
 using System.Windows.Controls;
 using WPFAutoFormGeneration.LIB.Models;
 
 namespace WPFAutoFormGeneration.LIB;
 
-public class StackPanelItemsController
+public static class StackPanelItemsController
 {
     public static void CreateFields(ItemsList itemsList, ref StackPanel panel)
     {
@@ -17,14 +17,12 @@ public class StackPanelItemsController
         }
     }
 
-    // public static Dictionary<string, string> ReadValuesFromFields(ItemsList itemsList, StackPanel panel)
-    // {
-    //     var result = new Dictionary<string, string>();
-    //     var controls = panel.Children;
-    //     
-    //     foreach (var item in itemsList.Items)
-    //     {
-    //         result.Add(ControlsReader.ReadControl(item, ));
-    //     }
-    // }
+    public static ItemsList ReadValuesFromFields(ItemsList itemsList, StackPanel panel)
+    {
+        var controls = panel.Children;
+
+        var resultList = itemsList.Items.Select(item => ControlsReader.ReadControl(item, controls)).ToList();
+
+        return new ItemsList(itemsList.Header, resultList);
+    }
 }

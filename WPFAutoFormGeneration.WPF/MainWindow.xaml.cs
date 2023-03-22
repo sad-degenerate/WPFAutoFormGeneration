@@ -16,19 +16,7 @@ namespace WPFAutoFormGeneration.WPF
 
         private void CreateFieldsMain()
         {
-            var items = new List<Item>
-            {
-                new("Экран", "Screen", ControlType.TextBox, "empty"),
-                new("Звук", "Sound", ControlType.CheckBox, "quite", new List<string>
-                {
-                    "loud",
-                    "quite",
-                }),
-            };
-
-            var itemsList = new ItemsList("Настройки", items);
             
-            StackPanelItemsController.CreateFields(itemsList, ref MyPanel);
         }
     }
 }

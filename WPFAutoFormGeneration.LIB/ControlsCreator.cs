@@ -50,7 +50,6 @@ public static class ControlsCreator
         {
             var radioButton = new RadioButton()
             {
-                Name = $"{value}",
                 Content = value,
                 GroupName = item.ControlName
             };

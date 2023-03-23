@@ -21,28 +21,32 @@ namespace WPFAutoFormGeneration.WPF
         {
             var items = new List<Item>
             {
-                new Item
+                new()
                 {
                     LabelText = "Введите ваше имя",
                     ControlName = "name",
                     ControlType = ControlType.TextBox
                 },
 
-                new Item
+                new()
                 {
                     LabelText = "Выберите ваш(-и) гендер(-ы)",
                     ControlName = "gender",
                     ControlType = ControlType.CheckBox,
-                    ControlValuesList = new List<string>
+                    ControlContent = new List<string>
                     {
                         "вертолет",
                         "посудомоечная машина",
                         "игорк в осу"
+                    },
+                    ControlValues = new List<string>
+                    {
+                        "вертолет"
                     }
                 }
             };
 
-            _itemsList = new ItemsList("Натсройки", items);
+            _itemsList = new ItemsList("Настройки", items);
             
             StackPanelItemsController.CreateFields(_itemsList, ref MyPanel);
         }
@@ -56,13 +60,13 @@ namespace WPFAutoFormGeneration.WPF
                 switch (item.ControlType)
                 {
                     case ControlType.CheckBox:
-                        var result = item.ControlValuesList
+                        var result = item.ControlValues
                             .Aggregate(string.Empty, (current, value) => current + $"{value} ");
                         MessageBox.Show($"{item.ControlName} - {result}");
                         break;
                         
                     case ControlType.TextBox:
-                        MessageBox.Show($"{item.ControlName} - {item.ControlValue}");
+                        MessageBox.Show($"{item.ControlName} - {item.ControlValues.FirstOrDefault()}");
                         break;
                 }
             }

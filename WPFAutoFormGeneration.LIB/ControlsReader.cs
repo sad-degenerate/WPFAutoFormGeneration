@@ -11,6 +11,11 @@ public static class ControlsReader
     {
         var name = item.ControlName;
 
+        if (string.IsNullOrWhiteSpace(name))
+        {
+            return new Item();
+        }
+
         return item.ControlType switch
         {
             ControlType.CheckBox => ReadCheckBox(name, controls),
@@ -27,19 +32,19 @@ public static class ControlsReader
         foreach (var control in controls)
         {
             if (control is not CheckBox checkBox || checkBox.Tag.ToString() != name ||
-                checkBox.IsChecked.Value == false)
+                checkBox.IsChecked is null or false || string.IsNullOrWhiteSpace(checkBox.Content.ToString()))
             {
                 continue;
             }
-
-            resultsList.Add(checkBox.Content.ToString());
+            
+            resultsList.Add(checkBox.Content.ToString()!);
         }
 
         return new Item
         {
             ControlName = name,
             ControlType = ControlType.CheckBox,
-            ControlValuesList = resultsList
+            ControlValues = resultsList
         };
     }
 
@@ -62,36 +67,37 @@ public static class ControlsReader
         {
             ControlName = name,
             ControlType = ControlType.ListBox,
-            ControlValuesList = resultsList
+            ControlValues = resultsList
         };
     }
 
     private static Item ReadRadioButton(string name, UIElementCollection controls)
     {
-        var result = string.Empty;
-        
+        var resultsList = new List<string>();
+
         foreach (var control in controls)
         {
             if (control is not RadioButton radioButton || radioButton.GroupName != name ||
-                radioButton.IsChecked.Value == false)
+                radioButton.IsChecked == false || string.IsNullOrWhiteSpace(radioButton.Content.ToString()))
             {
                 continue;
             }
-
-            result = radioButton.Content.ToString();
+            
+            resultsList.Add(radioButton.Content.ToString()!);
+            break;
         }
 
         return new Item
         {
             ControlName = name,
             ControlType = ControlType.RadioButton,
-            ControlValue = result
+            ControlValues = resultsList
         };
     }
 
     private static Item ReadTextBox(string name, UIElementCollection controls)
     {
-        var result = string.Empty;
+        var result = new List<string>();
         
         foreach (var control in controls)
         {
@@ -100,14 +106,15 @@ public static class ControlsReader
                 continue;
             }
 
-            result = textBox.Text;
+            result.Add(textBox.Text);
+            break;
         }
 
         return new Item
         {
             ControlName = name,
             ControlType = ControlType.TextBox,
-            ControlValue = result
+            ControlValues = result
         };
     }
 }

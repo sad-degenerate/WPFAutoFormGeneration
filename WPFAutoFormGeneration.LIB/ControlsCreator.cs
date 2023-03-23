@@ -1,4 +1,5 @@
-﻿using System.Windows.Controls;
+﻿using System.Linq;
+using System.Windows.Controls;
 using WPFAutoFormGeneration.LIB.Models;
 
 namespace WPFAutoFormGeneration.LIB;
@@ -7,7 +8,7 @@ public static class ControlsCreator
 {
     public static void AddControlToStackPanel(ref StackPanel panel, Item item)
     {
-        var label = new Label()
+        var label = new Label
         {
             Content = item.LabelText
         };
@@ -15,10 +16,6 @@ public static class ControlsCreator
         
         switch (item.ControlType)
         {
-            case ControlType.TextBox:
-                AddTextBox(ref panel, item);
-                break;
-                
             case ControlType.RadioButton:
                 AddRadioButton(ref panel, item);
                 break;
@@ -30,15 +27,24 @@ public static class ControlsCreator
             case ControlType.ListBox:
                 AddListBox(ref panel, item);
                 break;
+
+            case ControlType.TextBox:
+            default:
+                AddTextBox(ref panel, item);
+                break;
         }
     }
     
     private static void AddTextBox(ref StackPanel panel, Item item)
     {
-        var textBox = new TextBox()
+        var text = item.ControlValues == null || item.ControlValues.Count == 0 
+            ? string.Empty 
+            : item.ControlValues.First();
+        
+        var textBox = new TextBox
         {
             Name = item.ControlName,
-            Text = item.ControlValue
+            Text = text
         };
         
         panel.Children.Add(textBox);
@@ -46,15 +52,20 @@ public static class ControlsCreator
 
     private static void AddRadioButton(ref StackPanel panel, Item item)
     {
-        foreach (var value in item.ControlValuesList)
+        if (item.ControlContent == null || item.ControlContent.Count < 2)
         {
-            var radioButton = new RadioButton()
+            return;
+        }
+        
+        foreach (var content in item.ControlContent)
+        {
+            var radioButton = new RadioButton
             {
-                Content = value,
+                Content = content,
                 GroupName = item.ControlName
             };
 
-            if (item.ControlValue == value)
+            if (item.ControlValues != null && item.ControlValues.Contains(content))
             {
                 radioButton.IsChecked = true;
             }
@@ -65,15 +76,20 @@ public static class ControlsCreator
 
     private static void AddCheckBox(ref StackPanel panel, Item item)
     {
-        foreach (var value in item.ControlValuesList)
+        if (item.ControlContent == null || item.ControlContent.Count < 1)
         {
-            var checkBox = new CheckBox()
+            return;
+        }
+        
+        foreach (var content in item.ControlContent)
+        {
+            var checkBox = new CheckBox
             {
-                Content = value,
+                Content = content,
                 Tag = item.ControlName
             };
 
-            if (item.ControlValue == value)
+            if (item.ControlValues != null && item.ControlValues.Contains(content))
             {
                 checkBox.IsChecked = true;
             }
@@ -84,15 +100,26 @@ public static class ControlsCreator
 
     private static void AddListBox(ref StackPanel panel, Item item)
     {
-        var listBox = new ListBox()
+        if (item.ControlContent == null || item.ControlContent.Count < 2)
+        {
+            return;
+        }
+        
+        var listBox = new ListBox
         {
             Name = item.ControlName,
-            ItemsSource = item.ControlValuesList
+            ItemsSource = item.ControlContent
         };
+        
+        if (item.ControlValues == null || item.ControlValues.Count < 1)
+        {
+            panel.Children.Add(listBox);
+            return;
+        }
 
         foreach (var listBoxItem in listBox.ItemsSource)
         {
-            if (listBoxItem.ToString() == item.ControlValue)
+            if (item.ControlValues.Contains(listBoxItem.ToString() ?? string.Empty))
             {
                 listBox.SelectedItem = listBoxItem;
             }

@@ -8,6 +8,7 @@ public static class StackPanelItemsController
 {
     public static void CreateFields(ItemsList itemsList, ref StackPanel panel)
     {
+        // TODO: добавить имена для элементов чтобы добавдять стили
         panel.Children.Clear();
         panel.Children.Add(new Label() { Content = itemsList.Header });
 

@@ -18,8 +18,9 @@ F:\Projects\C#\WPFAutoFormGeneration\WPFAutoFormGeneration.WPF\obj\Debug\net7.0-
 F:\Projects\C#\WPFAutoFormGeneration\WPFAutoFormGeneration.WPF\obj\Debug\net7.0-windows\WPFAutoFormGeneration.WPF.pdb
 F:\Projects\C#\WPFAutoFormGeneration\WPFAutoFormGeneration.WPF\obj\Debug\net7.0-windows\WPFAutoFormGeneration.WPF.genruntimeconfig.cache
 F:\Projects\C#\WPFAutoFormGeneration\WPFAutoFormGeneration.WPF\obj\Debug\net7.0-windows\ref\WPFAutoFormGeneration.WPF.dll
-F:\Projects\C#\WPFAutoFormGeneration\WPFAutoFormGeneration.WPF\obj\Debug\net7.0-windows\Pages\AddRenterPage.baml
-F:\Projects\C#\WPFAutoFormGeneration\WPFAutoFormGeneration.WPF\obj\Debug\net7.0-windows\Pages\AddRenterPage.g.cs
 F:\Projects\C#\WPFAutoFormGeneration\WPFAutoFormGeneration.WPF\bin\Debug\net7.0-windows\WPFAutoFormGeneration.LIB.dll
 F:\Projects\C#\WPFAutoFormGeneration\WPFAutoFormGeneration.WPF\bin\Debug\net7.0-windows\WPFAutoFormGeneration.LIB.pdb
 F:\Projects\C#\WPFAutoFormGeneration\WPFAutoFormGeneration.WPF\obj\Debug\net7.0-windows\WPFAutoFormGeneration.WPF.csproj.CopyComplete
+F:\Projects\C#\WPFAutoFormGeneration\WPFAutoFormGeneration.WPF\obj\Debug\net7.0-windows\Styles\StackPanelStyle.baml
+F:\Projects\C#\WPFAutoFormGeneration\WPFAutoFormGeneration.WPF\obj\Debug\net7.0-windows\WPFAutoFormGeneration.WPF_MarkupCompile.lref
+F:\Projects\C#\WPFAutoFormGeneration\WPFAutoFormGeneration.WPF\obj\Debug\net7.0-windows\App.baml

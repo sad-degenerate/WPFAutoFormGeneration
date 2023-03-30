@@ -46,7 +46,7 @@ namespace WPFAutoFormGeneration.WPF
                 }
             };
 
-            _itemsList = new ItemsList("Настройки", items);
+            _itemsList = new ItemsList("Настройки", "header", items);
             
             StackPanelItemsController.CreateFields(_itemsList, ref MyPanel);
         }

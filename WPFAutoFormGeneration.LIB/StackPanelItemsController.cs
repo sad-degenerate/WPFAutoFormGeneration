@@ -8,9 +8,8 @@ public static class StackPanelItemsController
 {
     public static void CreateFields(ItemsList itemsList, ref StackPanel panel)
     {
-        // TODO: добавить имена для элементов чтобы добавдять стили
         panel.Children.Clear();
-        panel.Children.Add(new Label() { Content = itemsList.Header });
+        panel.Children.Add(new Label() { Content = itemsList.HeaderText, Name = itemsList.HeaderName });
 
         foreach (var item in itemsList.Items)
         {
@@ -24,6 +23,6 @@ public static class StackPanelItemsController
 
         var resultList = itemsList.Items.Select(item => ControlsReader.ReadControl(item, controls)).ToList();
 
-        return new ItemsList(itemsList.Header, resultList);
+        return new ItemsList(itemsList.HeaderText, itemsList.HeaderName, resultList);
     }
 }

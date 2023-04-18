@@ -5,8 +5,6 @@ namespace WPFAutoFormGeneration.LIB.Models;
 
 public abstract class BaseItem
 {
-    // TODO: ListBox - определиться это OneValueItem или MultipleValueItem
-    
     public string LabelText { get; }
     public string ControlName { get; }
     public ControlType ControlType { get; }

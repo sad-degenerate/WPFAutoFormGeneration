@@ -113,7 +113,8 @@ public static class ControlsCreator
         {
             Name = item.ControlName,
             ItemsSource = item.ControlContents,
-            Style = item.ItemStyle
+            Style = item.ItemStyle,
+            SelectionMode = SelectionMode.Multiple
         };
         
         if (item.ControlValues.Count > 1)

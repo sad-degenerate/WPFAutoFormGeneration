@@ -20,7 +20,16 @@ namespace WPFAutoFormGeneration.WPF
 
         private void CreateFieldsMain()
         {
-            var style = new Style()
+            var headerStyle = new Style()
+            {
+                Setters =
+                {
+                    new Setter { Property = FontFamilyProperty, Value = new FontFamily("Verdana") },
+                    new Setter { Property = FontSizeProperty, Value = 30.0 }
+                }
+            };
+            
+            var controlsStyle = new Style()
             {
                 Setters =
                 {
@@ -30,45 +39,18 @@ namespace WPFAutoFormGeneration.WPF
                 }
             };
             
-            var items = new List<Item>
+            var items = new List<BaseItem>
             {
-                new()
-                {
-                    LabelText = "Введите ваше имя",
-                    ControlName = "name",
-                    ControlType = ControlType.TextBox,
-                    Style = style
-                },
-
-                new()
-                {
-                    LabelText = "Выберите ваш(-и) гендер(-ы)",
-                    ControlName = "gender",
-                    ControlType = ControlType.CheckBox,
-                    ControlContent = new List<string>
-                    {
-                        "вертолет",
-                        "посудомоечная машина",
-                        "игорк в осу"
-                    },
-                    ControlValues = new List<string>
-                    {
-                        "вертолет"
-                    },
-                    Style = style
-                }
+                new OneValueItem("Введи своё имя:", "name", ControlType.TextBox, controlsStyle, string.Empty),
+                new MultipleValueItem("Ты гей?", "gay", ControlType.RadioButton, controlsStyle, 
+                    new List<string> { "Да", "Нет" }, new List<string>()),
+                new MultipleValueItem("Выбери подходящие тебе гендеры:", "genders", ControlType.CheckBox, controlsStyle,
+                    new List<string> { "вертолет", "посудомоечная машина", "игрок в осу" }, new List<string> { "вертолет" }),
+                new MultipleValueItem("Выбери жанры игр которые тебе нравятся:", "genres", ControlType.ListBox, controlsStyle,
+                    new List<string>() { "RPG", "СтРеЛяЛкИ", "БрОдИлКи", "Пазлы на раздевание" }, new List<string>())
             };
-
-            var headerStyle = new Style()
-            {
-                Setters =
-                {
-                    new Setter { Property = FontFamilyProperty, Value = new FontFamily("Verdana") },
-                    new Setter { Property = FontSizeProperty, Value = 30.0 }
-                }
-            };
-
-            _itemsList = new ItemsList("Настройки", "header", items, headerStyle);
+            
+            _itemsList = new ItemsList("Опрос \"Какой ты геймер?\"", items, headerStyle);
             
             StackPanelItemsController.CreateFields(_itemsList, ref MyPanel);
         }
@@ -77,21 +59,44 @@ namespace WPFAutoFormGeneration.WPF
         {
             var list = StackPanelItemsController.ReadValuesFromFields(_itemsList, MyPanel);
 
-            foreach (var item in list.Items)
+            var name = list.Where(x => x.ControlName == "name").First() as ResultItem;
+            var genders = list.Where(x => x.ControlName == "genders").First() as ResultItems;
+            var gay = list.Where(x => x.ControlName == "gay").First() as ResultItem;
+            var genres = list.Where(x => x.ControlName == "genres").First() as ResultItems;
+
+            var text = $"Так, посмотри твои результаты... Тебя зовут {name.Result}? Странное имя...\n";
+            
+            text += "Ты ";
+            if (gay.Result == "Нет")
             {
-                switch (item.ControlType)
-                {
-                    case ControlType.CheckBox:
-                        var result = item.ControlValues
-                            .Aggregate(string.Empty, (current, value) => current + $"{value} ");
-                        MessageBox.Show($"{item.ControlName} - {result}");
-                        break;
-                        
-                    case ControlType.TextBox:
-                        MessageBox.Show($"{item.ControlName} - {item.ControlValues.FirstOrDefault()}");
-                        break;
-                }
+                text += "не ";
             }
+            text += "гей... интересно...\n";
+            
+            text += "Ты указал в списке гендеров... ";
+            if (genders.ResultsList.Count == 0)
+            {
+                text += "ничего ты не указал!";
+            }
+            else
+            {
+                text = genders.ResultsList.Aggregate(text, (current, value) => current + $"{value}...");
+            }
+            text += "...хммм... \n";
+            
+            text += "Так, а что у нас с жанрами? ";
+            if (genres.ResultsList.Count == 0)
+            {
+                text += "ничего ты не указал!";
+            }
+            else
+            {
+                text = genres.ResultsList.Aggregate(text, (current, value) => current + $"{value}...");
+            }
+            
+            text += "Ну ладно, ты сдал экзамен, давай зачетную книжку!";
+
+            MessageBox.Show(text);
         }
     }
 }

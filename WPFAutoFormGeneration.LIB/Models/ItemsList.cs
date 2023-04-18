@@ -8,9 +8,9 @@ public class ItemsList
 {
     public string HeaderText { get; }
     public Style HeaderStyle { get; }
-    public List<Item> Items { get; }
+    public List<BaseItem> Items { get; }
 
-    public ItemsList(string headerText, List<Item> items, Style headerStyle)
+    public ItemsList(string headerText, List<BaseItem> items, Style headerStyle)
     {
         if (string.IsNullOrWhiteSpace(headerText))
         {

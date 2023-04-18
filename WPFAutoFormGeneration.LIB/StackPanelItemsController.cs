@@ -1,5 +1,5 @@
-﻿using System.Linq;
-using System.Windows;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Windows.Controls;
 using WPFAutoFormGeneration.LIB.Models;
 
@@ -18,12 +18,12 @@ public static class StackPanelItemsController
         }
     }
 
-    public static ItemsList ReadValuesFromFields(ItemsList itemsList, StackPanel panel)
+    public static List<BaseItem> ReadValuesFromFields(ItemsList itemsList, StackPanel panel)
     {
         var controls = panel.Children;
 
         var resultList = itemsList.Items.Select(item => ControlsReader.ReadControl(item, controls)).ToList();
 
-        return new ItemsList(itemsList.HeaderText, resultList, new Style());
+        return resultList;
     }
 }

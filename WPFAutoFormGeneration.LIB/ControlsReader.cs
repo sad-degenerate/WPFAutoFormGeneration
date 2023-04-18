@@ -7,16 +7,11 @@ namespace WPFAutoFormGeneration.LIB;
 
 public static class ControlsReader
 {
-    public static Item ReadControl(Item item, UIElementCollection controls)
+    public static BaseItem ReadControl(BaseItem baseItem, UIElementCollection controls)
     {
-        var name = item.ControlName;
+        var name = baseItem.ControlName;
 
-        if (string.IsNullOrWhiteSpace(name))
-        {
-            return new Item();
-        }
-
-        return item.ControlType switch
+        return baseItem.ControlType switch
         {
             ControlType.CheckBox => ReadCheckBox(name, controls),
             ControlType.ListBox => ReadListBox(name, controls),
@@ -25,30 +20,24 @@ public static class ControlsReader
         };
     }
 
-    private static Item ReadCheckBox(string name, UIElementCollection controls)
+    private static BaseItem ReadCheckBox(string name, UIElementCollection controls)
     {
         var resultsList = new List<string>();
 
         foreach (var control in controls)
         {
-            if (control is not CheckBox checkBox || checkBox.Tag.ToString() != name ||
-                checkBox.IsChecked is null or false || string.IsNullOrWhiteSpace(checkBox.Content.ToString()))
+            if (control is not CheckBox checkBox || checkBox.Tag.ToString() != name || checkBox.IsChecked == false)
             {
                 continue;
             }
             
-            resultsList.Add(checkBox.Content.ToString()!);
+            resultsList.Add(checkBox.Content.ToString());
         }
 
-        return new Item
-        {
-            ControlName = name,
-            ControlType = ControlType.CheckBox,
-            ControlValues = resultsList
-        };
+        return new ResultItems(name, ControlType.CheckBox, resultsList);
     }
 
-    private static Item ReadListBox(string name, UIElementCollection controls)
+    private static BaseItem ReadListBox(string name, UIElementCollection controls)
     {
         var resultsList = new List<string>();
 
@@ -63,41 +52,30 @@ public static class ControlsReader
             break;
         }
 
-        return new Item
-        {
-            ControlName = name,
-            ControlType = ControlType.ListBox,
-            ControlValues = resultsList
-        };
+        return new ResultItems(name, ControlType.ListBox, resultsList);
     }
 
-    private static Item ReadRadioButton(string name, UIElementCollection controls)
+    private static BaseItem ReadRadioButton(string name, UIElementCollection controls)
     {
-        var resultsList = new List<string>();
+        var result = string.Empty;
 
         foreach (var control in controls)
         {
-            if (control is not RadioButton radioButton || radioButton.GroupName != name ||
-                radioButton.IsChecked == false || string.IsNullOrWhiteSpace(radioButton.Content.ToString()))
+            if (control is not RadioButton radioButton || radioButton.GroupName != name || radioButton.IsChecked == false)
             {
                 continue;
             }
             
-            resultsList.Add(radioButton.Content.ToString()!);
+            result = radioButton.Content.ToString();
             break;
         }
 
-        return new Item
-        {
-            ControlName = name,
-            ControlType = ControlType.RadioButton,
-            ControlValues = resultsList
-        };
+        return new ResultItem(name, ControlType.RadioButton, result);
     }
 
-    private static Item ReadTextBox(string name, UIElementCollection controls)
+    private static BaseItem ReadTextBox(string name, UIElementCollection controls)
     {
-        var result = new List<string>();
+        var result = string.Empty;
         
         foreach (var control in controls)
         {
@@ -106,15 +84,10 @@ public static class ControlsReader
                 continue;
             }
 
-            result.Add(textBox.Text);
+            result = textBox.Text;
             break;
         }
 
-        return new Item
-        {
-            ControlName = name,
-            ControlType = ControlType.TextBox,
-            ControlValues = result
-        };
+        return new ResultItem(name, ControlType.TextBox, result);
     }
 }

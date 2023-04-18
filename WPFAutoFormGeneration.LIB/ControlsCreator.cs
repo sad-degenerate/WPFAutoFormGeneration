@@ -1,70 +1,71 @@
-﻿using System.Linq;
-using System.Windows.Controls;
+﻿using System.Windows.Controls;
 using WPFAutoFormGeneration.LIB.Models;
 
 namespace WPFAutoFormGeneration.LIB;
 
 public static class ControlsCreator
 {
-    public static void AddControlToStackPanel(ref StackPanel panel, Item item)
+    public static void AddControlToStackPanel(ref StackPanel panel, BaseItem baseItem)
     {
         var label = new Label
         {
-            Content = item.LabelText,
-            Style = item.Style
+            Content = baseItem.LabelText,
+            Style = baseItem.ItemStyle
         };
         panel.Children.Add(label);
         
-        switch (item.ControlType)
+        switch (baseItem.ControlType)
         {
             case ControlType.RadioButton:
-                AddRadioButton(ref panel, item);
+                AddRadioButton(ref panel, baseItem);
                 break;
                 
             case ControlType.CheckBox:
-                AddCheckBox(ref panel, item);
+                AddCheckBox(ref panel, baseItem);
                 break;
                 
             case ControlType.ListBox:
-                AddListBox(ref panel, item);
+                AddListBox(ref panel, baseItem);
                 break;
 
             case ControlType.TextBox:
             default:
-                AddTextBox(ref panel, item);
+                AddTextBox(ref panel, baseItem);
                 break;
         }
     }
     
-    private static void AddTextBox(ref StackPanel panel, Item item)
+    private static void AddTextBox(ref StackPanel panel, BaseItem baseItem)
     {
-        var text = item.ControlValues == null || item.ControlValues.Count == 0 
-            ? string.Empty 
-            : item.ControlValues.First();
-        
+        if (baseItem is not OneValueItem item)
+        {
+            return;
+        }
+
         var textBox = new TextBox
         {
             Name = item.ControlName,
-            Text = text,
-            Style = item.Style
+            Text = item.ControlValue,
+            Style = item.ItemStyle
         };
         
         panel.Children.Add(textBox);
     }
 
-    private static void AddRadioButton(ref StackPanel panel, Item item)
+    private static void AddRadioButton(ref StackPanel panel, BaseItem baseItem)
     {
-        if (item.ControlContent == null || item.ControlContent.Count < 2)
+        if (baseItem is not MultipleValueItem item)
         {
             return;
         }
         
-        foreach (var content in item.ControlContent)
+        foreach (var content in item.ControlContents)
         {
             var radioButton = new RadioButton
             {
                 Content = content,
-                GroupName = item.ControlName
+                GroupName = item.ControlName,
+                Style = item.ItemStyle
             };
 
             if (item.ControlValues != null && item.ControlValues.Contains(content))
@@ -72,25 +73,24 @@ public static class ControlsCreator
                 radioButton.IsChecked = true;
             }
 
-            radioButton.Style = item.Style;
-
             panel.Children.Add(radioButton);
         }
     }
 
-    private static void AddCheckBox(ref StackPanel panel, Item item)
+    private static void AddCheckBox(ref StackPanel panel, BaseItem baseItem)
     {
-        if (item.ControlContent == null || item.ControlContent.Count < 1)
+        if (baseItem is not MultipleValueItem item)
         {
             return;
         }
         
-        foreach (var content in item.ControlContent)
+        foreach (var content in item.ControlContents)
         {
             var checkBox = new CheckBox
             {
                 Content = content,
-                Tag = item.ControlName
+                Tag = item.ControlName,
+                Style = item.ItemStyle
             };
 
             if (item.ControlValues != null && item.ControlValues.Contains(content))
@@ -98,15 +98,13 @@ public static class ControlsCreator
                 checkBox.IsChecked = true;
             }
 
-            checkBox.Style = item.Style;
-            
             panel.Children.Add(checkBox);
         }
     }
 
-    private static void AddListBox(ref StackPanel panel, Item item)
+    private static void AddListBox(ref StackPanel panel, BaseItem baseItem)
     {
-        if (item.ControlContent == null || item.ControlContent.Count < 2)
+        if (baseItem is not MultipleValueItem item)
         {
             return;
         }
@@ -114,21 +112,18 @@ public static class ControlsCreator
         var listBox = new ListBox
         {
             Name = item.ControlName,
-            ItemsSource = item.ControlContent,
-            Style = item.Style
+            ItemsSource = item.ControlContents,
+            Style = item.ItemStyle
         };
         
-        if (item.ControlValues == null || item.ControlValues.Count < 1)
+        if (item.ControlValues.Count > 1)
         {
-            panel.Children.Add(listBox);
-            return;
-        }
-
-        foreach (var listBoxItem in listBox.ItemsSource)
-        {
-            if (item.ControlValues.Contains(listBoxItem.ToString() ?? string.Empty))
+            foreach (var listBoxItem in listBox.ItemsSource)
             {
-                listBox.SelectedItem = listBoxItem;
+                if (item.ControlValues.Contains(listBoxItem.ToString() ?? string.Empty))
+                {
+                    listBox.SelectedItem = listBoxItem;
+                }
             }
         }
 

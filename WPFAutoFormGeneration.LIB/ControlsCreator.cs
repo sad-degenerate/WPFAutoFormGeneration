@@ -1,5 +1,4 @@
 ﻿using System.Linq;
-using System.Windows;
 using System.Windows.Controls;
 using WPFAutoFormGeneration.LIB.Models;
 
@@ -12,6 +11,7 @@ public static class ControlsCreator
         var label = new Label
         {
             Content = item.LabelText,
+            Style = item.Style
         };
         panel.Children.Add(label);
         

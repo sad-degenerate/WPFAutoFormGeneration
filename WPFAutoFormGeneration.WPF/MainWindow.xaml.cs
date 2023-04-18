@@ -20,27 +20,13 @@ namespace WPFAutoFormGeneration.WPF
 
         private void CreateFieldsMain()
         {
-            
-            
-            // var controlStyle = new Style()
-            // {
-            //     Setters =
-            //     {
-            //         new Setter { Property = BackgroundProperty, Value = new SolidColorBrush(Colors.Blue) },
-            //         new Setter { Property = FontFamilyProperty, Value = new FontFamily("Verdana") },
-            //         new Setter { Property = FontSizeProperty, Value = 30 }
-            //     }
-            // };
-            
             var style = new Style()
             {
-                // TargetType = typeof(Label),
-                // BasedOn = controlStyle,
                 Setters =
                 {
-                    new Setter { Property = BackgroundProperty, Value = new SolidColorBrush(Colors.Red) },
                     new Setter { Property = FontFamilyProperty, Value = new FontFamily("Verdana") },
-                    new Setter { Property = FontSizeProperty, Value = 20.0 }
+                    new Setter { Property = FontSizeProperty, Value = 20.0 },
+                    new Setter { Property = MarginProperty, Value = new Thickness(20.0, 5.0, 20.0, 5.0) },
                 }
             };
             
@@ -77,7 +63,6 @@ namespace WPFAutoFormGeneration.WPF
             {
                 Setters =
                 {
-                    new Setter { Property = BackgroundProperty, Value = new SolidColorBrush(Colors.Black) },
                     new Setter { Property = FontFamilyProperty, Value = new FontFamily("Verdana") },
                     new Setter { Property = FontSizeProperty, Value = 30.0 }
                 }

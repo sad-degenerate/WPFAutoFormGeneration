@@ -10,8 +10,7 @@ public static class StackPanelItemsController
     public static void CreateFields(ItemsList itemsList, ref StackPanel panel)
     {
         panel.Children.Clear();
-        panel.Children.Add(new Label { Content = itemsList.HeaderText, 
-            Name = itemsList.HeaderName, Style = itemsList.HeaderStyle});
+        panel.Children.Add(new Label { Content = itemsList.HeaderText, Style = itemsList.HeaderStyle});
 
         foreach (var item in itemsList.Items)
         {
@@ -25,6 +24,6 @@ public static class StackPanelItemsController
 
         var resultList = itemsList.Items.Select(item => ControlsReader.ReadControl(item, controls)).ToList();
 
-        return new ItemsList(itemsList.HeaderText, itemsList.HeaderName, resultList, new Style());
+        return new ItemsList(itemsList.HeaderText, resultList, new Style());
     }
 }

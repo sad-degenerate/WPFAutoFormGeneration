@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
+using System.Windows.Media;
 using WPFAutoFormGeneration.LIB;
 using WPFAutoFormGeneration.LIB.Models;
 
@@ -19,13 +20,38 @@ namespace WPFAutoFormGeneration.WPF
 
         private void CreateFieldsMain()
         {
+            
+            
+            // var controlStyle = new Style()
+            // {
+            //     Setters =
+            //     {
+            //         new Setter { Property = BackgroundProperty, Value = new SolidColorBrush(Colors.Blue) },
+            //         new Setter { Property = FontFamilyProperty, Value = new FontFamily("Verdana") },
+            //         new Setter { Property = FontSizeProperty, Value = 30 }
+            //     }
+            // };
+            
+            var style = new Style()
+            {
+                // TargetType = typeof(Label),
+                // BasedOn = controlStyle,
+                Setters =
+                {
+                    new Setter { Property = BackgroundProperty, Value = new SolidColorBrush(Colors.Red) },
+                    new Setter { Property = FontFamilyProperty, Value = new FontFamily("Verdana") },
+                    new Setter { Property = FontSizeProperty, Value = 20.0 }
+                }
+            };
+            
             var items = new List<Item>
             {
                 new()
                 {
                     LabelText = "Введите ваше имя",
                     ControlName = "name",
-                    ControlType = ControlType.TextBox
+                    ControlType = ControlType.TextBox,
+                    Style = style
                 },
 
                 new()
@@ -42,11 +68,22 @@ namespace WPFAutoFormGeneration.WPF
                     ControlValues = new List<string>
                     {
                         "вертолет"
-                    }
+                    },
+                    Style = style
                 }
             };
 
-            _itemsList = new ItemsList("Настройки", "header", items);
+            var headerStyle = new Style()
+            {
+                Setters =
+                {
+                    new Setter { Property = BackgroundProperty, Value = new SolidColorBrush(Colors.Black) },
+                    new Setter { Property = FontFamilyProperty, Value = new FontFamily("Verdana") },
+                    new Setter { Property = FontSizeProperty, Value = 30.0 }
+                }
+            };
+
+            _itemsList = new ItemsList("Настройки", "header", items, headerStyle);
             
             StackPanelItemsController.CreateFields(_itemsList, ref MyPanel);
         }

@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using System.Windows;
 using System.Windows.Controls;
 using WPFAutoFormGeneration.LIB.Models;
 
@@ -10,7 +11,7 @@ public static class ControlsCreator
     {
         var label = new Label
         {
-            Content = item.LabelText
+            Content = item.LabelText,
         };
         panel.Children.Add(label);
         
@@ -44,7 +45,8 @@ public static class ControlsCreator
         var textBox = new TextBox
         {
             Name = item.ControlName,
-            Text = text
+            Text = text,
+            Style = item.Style
         };
         
         panel.Children.Add(textBox);
@@ -70,6 +72,8 @@ public static class ControlsCreator
                 radioButton.IsChecked = true;
             }
 
+            radioButton.Style = item.Style;
+
             panel.Children.Add(radioButton);
         }
     }
@@ -94,6 +98,8 @@ public static class ControlsCreator
                 checkBox.IsChecked = true;
             }
 
+            checkBox.Style = item.Style;
+            
             panel.Children.Add(checkBox);
         }
     }
@@ -108,7 +114,8 @@ public static class ControlsCreator
         var listBox = new ListBox
         {
             Name = item.ControlName,
-            ItemsSource = item.ControlContent
+            ItemsSource = item.ControlContent,
+            Style = item.Style
         };
         
         if (item.ControlValues == null || item.ControlValues.Count < 1)

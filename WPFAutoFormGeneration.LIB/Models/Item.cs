@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Windows;
 
 namespace WPFAutoFormGeneration.LIB.Models;
 
@@ -9,4 +10,5 @@ public class Item
     public ControlType ControlType { get; set; }
     public List<string>? ControlValues { get; set; }
     public List<string>? ControlContent { get; set; }
+    public Style Style { get; set; }
 }
